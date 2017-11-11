@@ -1,5 +1,7 @@
 package main;
 
+import java.nio.charset.StandardCharsets;
+
 public class ByteReader {
 	
 	public byte[] array;
@@ -12,6 +14,21 @@ public class ByteReader {
 	
 	public byte readByte(){
 		return array[ptr++];
+	}
+	
+	public byte[] readBytes(int count){
+		byte[] result = new byte[count];
+		readBytes(result,0,count);
+		return result;
+	}
+	
+	public void readBytes(byte[] array){
+		readBytes(array,0,array.length);
+	}
+	
+	public void readBytes(byte[] array,int offset,int length){
+		System.arraycopy(this.array, ptr, array, offset, length);
+		ptr += length;
 	}
 	
 	public short readShort(){
@@ -38,6 +55,14 @@ public class ByteReader {
 		if(b==0xfe)return readInt()&0xffffffffL;
 		if(b==0xff)return readLong();
 		return b;
+	}
+	
+	public String sreadString(){
+		int len = (int)sreaduvInt();
+		byte[] b = new byte[len];
+		System.arraycopy(array, ptr, b, 0, len);
+		ptr += len;
+		return new String(b,StandardCharsets.UTF_8);
 	}
 
 }

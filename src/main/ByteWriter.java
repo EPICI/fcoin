@@ -1,6 +1,7 @@
 package main;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ByteWriter {
@@ -142,7 +143,7 @@ public class ByteWriter {
 	}
 	
 	public void swriteString(String s){
-		byte[] bytes = s.getBytes(Charset.forName("utf-8"));
+		byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
 		swriteuvInt(bytes.length);
 		writeBytes(bytes);
 	}
