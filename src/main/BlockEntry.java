@@ -8,6 +8,8 @@ import util.*;
 public class BlockEntry {
 	
 	public byte[] bytes;
+	public int offset;
+	public ByteReader reader;
 	
 	/**
 	 * Takes the context (summary of transactions and other stuff so far), checks if this
@@ -29,7 +31,7 @@ public class BlockEntry {
 		}
 	}
 	public boolean verifyConsumeUnchecked(Context context){
-		ByteReader reader = new ByteReader(bytes);
+		reader = new ByteReader(bytes,offset);
 		int otype = reader.readShort()&0xffff;
 		switch(otype){
 		// 0000 is reserved as a terminating character

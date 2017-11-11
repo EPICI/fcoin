@@ -128,12 +128,12 @@ public class ByteWriter {
 	}
 	
 	public void swritevInt(long v){
-		if((0x800000000000082L<v)&(v<0xff)){
+		if((0xffffffffffffff82L<v)&(v<0x80)){
 			writeByte((byte)v);
-		}else if((0x800000000008000L<=v)&(v<0x8000)){
+		}else if((0xffffffffffff8000L<=v)&(v<0x8000)){
 			writeByte((byte)0x80);
 			writeShort((short)v);
-		}else if((0x800000080000000L<=v)&(v<0x80000000L)){
+		}else if((0xffffffff80000000L<=v)&(v<0x80000000L)){
 			writeByte((byte)0x81);
 			writeInt((int)v);
 		}else{

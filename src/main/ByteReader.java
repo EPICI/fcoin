@@ -1,15 +1,29 @@
 package main;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class ByteReader {
 	
 	public byte[] array;
-	public int ptr;
+	public int mkr,ptr;
 	
 	public ByteReader(byte[] array){
-		this.array=array;
-		ptr=0;
+		this(array,0);
+	}
+	
+	public ByteReader(byte[] array,int begin){
+		this.array = array;
+		ptr = mkr = begin;
+	}
+	
+	/**
+	 * Returns an array of the bytes read so far
+	 * 
+	 * @return
+	 */
+	public byte[] snip(){
+		return Arrays.copyOfRange(array, mkr, ptr);
 	}
 	
 	public byte readByte(){
@@ -54,6 +68,14 @@ public class ByteReader {
 		if(b==0xfd)return readShort()&0xffff;
 		if(b==0xfe)return readInt()&0xffffffffL;
 		if(b==0xff)return readLong();
+		return b;
+	}
+	
+	public long sreadvInt(){
+		int b = readByte();
+		if(b==0xffffff80)return readShort();
+		if(b==0xffffff81)return readInt();
+		if(b==0xffffff82)return readLong();
 		return b;
 	}
 	
