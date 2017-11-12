@@ -11,6 +11,13 @@ public class BlockEntry {
 	public int offset;
 	public ByteReader reader;
 	
+	public void trim(){
+		if(reader!=null){
+			bytes = reader.snip();
+			offset = 0;
+		}
+	}
+	
 	/**
 	 * Takes the context (summary of transactions and other stuff so far), checks if this
 	 * is valid, if no, return false, if yes, return true
